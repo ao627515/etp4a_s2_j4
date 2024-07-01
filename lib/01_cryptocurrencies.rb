@@ -6,30 +6,23 @@ prices = ["6558.07", "468.95", "0.487526", "762.84", "8.86", "85.26", "0.151268"
 # Création du hash bourse avec les données
 bourse = divises.zip(prices).to_h
 
-
 # Recherche de la crypto avec la plus grande valeur
 crypto_max_value = bourse.max_by { |_, price| price.to_f }
+puts "La crypto avec la plus grande valeur : #{crypto_max_value.first} - #{crypto_max_value.last}"
 
-puts "La ou les cryptos avec la plus grande valeur :"
-crypto_max_value.each { |item| print "#{item} " }
-puts
+# Recherche de la crypto avec la plus petite valeur
+crypto_min_value = bourse.min_by { |_, price| price.to_f }
+puts "La crypto avec la plus petite valeur : #{crypto_min_value.first} - #{crypto_min_value.last}"
 
-# La ou les cryptos qui ont la plus petite valeur.
-crypto_max_value = bourse.min_by { |_, price| price.to_f }
+# Le nombre de cryptos contenant le mot "coin"
+coin_count = bourse.count { |key, _| key.include?('coin') }
+puts "#{coin_count} crypto(s) contenant le mot \"coin\""
 
-puts "La ou les cryptos avec la plus grande valeur :"
-crypto_max_value.each { |item| print "#{item} " }
-puts
-
-# Le nombre de crypto contenant le mot "coin"
-coin_count = bourse.count { |key, value| key =~ /coin/}
-puts "#{coin_count} crypto contenant le mot \"coin\""
-
-# Les devises, dont le cours est inférieur à 6000 
-new_devices = bourse.select { |key, value| value.to_f < 6000 }
-puts "Les devises, dont le cours est inférieur à 6000 "
+# Les devises dont le cours est inférieur à 6000
+new_devices = bourse.select { |_, value| value.to_f < 6000 }
+puts "Les devises dont le cours est inférieur à 6000 :"
 new_devices.each { |key, value| puts "#{key} -:- #{value}" }
 
-# La devise la plus chère parmi celles dont le cours est inférieur à 6000.
-max_value = new_devices.max_by { |key, value| value.to_f }
-puts "La devise la plus chère parmi celles dont le cours est inférieur à 6000 est #{ max_value.inspect}"
+# La devise la plus chère parmi celles dont le cours est inférieur à 6000
+max_value_device = new_devices.max_by { |_, value| value.to_f }
+puts "La devise la plus chère parmi celles dont le cours est inférieur à 6000 est #{max_value_device.first} - #{max_value_device.last}"
