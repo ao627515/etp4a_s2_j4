@@ -6,12 +6,30 @@ prices = ["6558.07", "468.95", "0.487526", "762.84", "8.86", "85.26", "0.151268"
 # Création du hash bourse avec les données
 bourse = divises.zip(prices).to_h
 
-# Transformation des données dans le format souhaité
-data = bourse.map { |divise, price| { divise: divise, price: price } }
 
 # Recherche de la crypto avec la plus grande valeur
 crypto_max_value = bourse.max_by { |_, price| price.to_f }
 
 puts "La ou les cryptos avec la plus grande valeur :"
-puts crypto_max_value.inspect
+crypto_max_value.each { |item| print "#{item} " }
+puts
 
+# La ou les cryptos qui ont la plus petite valeur.
+crypto_max_value = bourse.min_by { |_, price| price.to_f }
+
+puts "La ou les cryptos avec la plus grande valeur :"
+crypto_max_value.each { |item| print "#{item} " }
+puts
+
+# Le nombre de crypto contenant le mot "coin"
+coin_count = bourse.count { |key, value| key =~ /coin/}
+puts "#{coin_count} crypto contenant le mot \"coin\""
+
+# Les devises, dont le cours est inférieur à 6000 
+new_devices = bourse.select { |key, value| value.to_f < 6000 }
+puts "Les devises, dont le cours est inférieur à 6000 "
+new_devices.each { |key, value| puts "#{key} -:- #{value}" }
+
+# La devise la plus chère parmi celles dont le cours est inférieur à 6000.
+max_value = new_devices.max_by { |key, value| value.to_f }
+puts "La devise la plus chère parmi celles dont le cours est inférieur à 6000 est #{ max_value.inspect}"
